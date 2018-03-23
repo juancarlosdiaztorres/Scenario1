@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+~~~~~~~~~~~~~~~~~~~~~~
+|ONOS-SDDC Scenario|
+~~~~~~~~~~~~~~~~~~~~~~
+
+Name:        SDDC-ONOS
+
+Summary: This is a virtual scenario of a Software Defined Data Center (SDDC) following CORD Project.
+
+Author:      Juan Carlos Díaz Torres
+-->
+
+
+<vnx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="/usr/share/xml/vnx/vnx-2.00.xsd">
+  <global>
+    <version>2.0</version>
+    <scenario_name>tutorial_vlan_ovs</scenario_name>
+    <automac offset="5"/>
+    <vm_mgmt type="none" />
+    <!--vm_mgmt type="private" network="10.250.0.0" mask="24" offset="16">
+       <host_mapping />
+    </vm_mgmt-->
+    <vm_defaults>
+	    <console id="0" display="no"/>
+	    <console id="1" display="yes"/>
+    </vm_defaults>
+  </global>
+
+	 <!-- NETWORKS DEFINITION -->
+	 <!-- virbr0 (192.168.122.0/24) -->
+	 <net name="virbr0" mode="virtual_bridge" managed="no"/>
+	 <!-- Networks between leaf and spines -->
+	 <net name="net1-11" mode="virtual_bridge"/>
+	 <net name="net1-12" mode="virtual_bridge"/>
+	 <net name="net2-11" mode="virtual_bridge"/>
+	 <net name="net2-12" mode="virtual_bridge"/>
+	 <net name="net_ctrl" mode="virtual_bridge"/>
+	 <!-- Networks between ToRs and Servers -->
+	 <net name="net11-1" mode="virtual_bridge"/>
+	 <net name="net11-2" mode="virtual_bridge"/>
+	 <net name="net12-3" mode="virtual_bridge"/>
+	 <net name="net12-4" mode="virtual_bridge"/>
+
+
+  <!-- ONOS -->
+  <vm name="ONOS" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <if id="1" net="net_ctrl">
+      <ipv4>10.100.10.1/24</ipv4>
+      <ipv6>2001:db8:100:10::1/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy configuration files -->
+    <filetree seq="on_boot" root="/root/conf/">conf/ONOS/</filetree>
+
+    <!-- Configure and Start ONOS for IPv4 -->
+    <exec seq="start-ipv4" type="verbatim">
+        /root/conf/config-ONOS_ipv4.sh
+        nohup /root/conf/start-ONOS.sh
+    </exec>
+
+    <!-- Configure and Start ONOS for IPv6 -->
+    <exec seq="start-ipv6" type="verbatim">
+        /root/conf/config-ONOS_ipv6.sh
+        nohup /root/conf/start-ONOS.sh
+    </exec>
+  </vm>
+
+   <!-- CLIENT 1 -->
+  <vm name="client0" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <if id="1" net="net11-1">
+      <ipv4>10.100.1.2/24</ipv4>
+      <ipv6>2001:db8:100:1::2/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Configure gateway -->
+    <exec seq="on_boot" type="verbatim">
+        ip route replace default via 10.100.1.1
+        ip -6 route replace default via 2001:db8:100:1::1
+    </exec>
+  </vm>
+
+  <!-- CLIENT 2 -->
+  <vm name="client2" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <if id="1" net="net11-2">
+      <ipv4>10.100.2.2/24</ipv4>
+      <ipv6>2001:db8:100:2::2/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Configure gateway -->
+    <exec seq="on_boot" type="verbatim">
+        ip route replace default via 10.100.2.1
+        ip -6 route replace default via 2001:db8:100:2::1
+    </exec>
+  </vm>
+
+  <!-- CLIENT 3 -->
+  <vm name="client3" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <if id="1" net="net12-3">
+      <ipv4>10.100.3.2/24</ipv4>
+      <ipv6>2001:db8:100:3::2/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Configure gateway -->
+    <exec seq="on_boot" type="verbatim">
+        ip route replace default via 10.100.3.1
+        ip -6 route replace default via 2001:db8:100:3::1
+    </exec>
+  </vm>
+
+
+  <!-- CLIENT 4 -->
+  <vm name="client4" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <if id="1" net="net12-4">
+      <ipv4>10.100.4.2/24</ipv4>
+      <ipv6>2001:db8:100:4::2/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Configure gateway -->
+    <exec seq="on_boot" type="verbatim">
+        ip route replace default via 10.100.4.1
+        ip -6 route replace default via 2001:db8:100:4::1
+    </exec>
+  </vm>
+
+
+  <!-- S1 -->
+  <vm name="s1" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <!-- 2 interfaces and the ctrl -->
+    <if id="1" net="net1-11"/>
+    <if id="2" net="net1-12"/>
+    <if id="3" net="net_ctrl">
+      <ipv4>10.100.10.11/24</ipv4>
+      <ipv6>2001:db8:100:10::11/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy configuration files -->
+    <filetree seq="on_boot" root="/root/conf/">conf/s1/</filetree>
+
+    <!-- Configure Open vSwitch -->
+    <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
+</vm>
+
+   <!-- S2 -->
+  <vm name="s2" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <!-- 2 interfaces and the ctrl -->
+    <if id="1" net="net2-11"/>
+    <if id="2" net="net2-12"/>
+    <if id="3" net="net_ctrl">
+      <ipv4>10.100.10.12/24</ipv4>
+      <ipv6>2001:db8:100:10::12/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy configuration files -->
+    <filetree seq="on_boot" root="/root/conf/">conf/s2/</filetree>
+
+    <!-- Configure Open vSwitch -->
+    <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
+</vm>
+  
+  <!-- S11 -->
+  <vm name="s11" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <if id="1" net="net1-11"/>
+    <if id="2" net="net1-12"/>
+    <if id="3" net="net_ctrl">
+      <ipv4>10.100.10.111/24</ipv4>
+      <ipv6>2001:db8:100:10::111/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy configuration files -->
+    <filetree seq="on_boot" root="/root/conf/">conf/s11/</filetree>
+
+    <!-- Configure Open vSwitch -->
+    <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
+</vm>
+
+
+<!-- S12 -->
+  <vm name="s12" type="lxc" arch="x86_64">
+    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <if id="1" net="net2-11"/>
+    <if id="2" net="net2-12"/>
+    <if id="3" net="net_ctrl">
+      <ipv4>10.100.10.112/24</ipv4>
+      <ipv6>2001:db8:100:10::112/64</ipv6>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy configuration files -->
+    <filetree seq="on_boot" root="/root/conf/">conf/s12/</filetree>
+
+    <!-- Configure Open vSwitch -->
+    <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
+</vm>
+
+
+</vnx>
