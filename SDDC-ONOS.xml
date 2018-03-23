@@ -47,7 +47,7 @@ Author:      Juan Carlos Díaz Torres
 
   <!-- ONOS -->
   <vm name="ONOS" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net_ctrl">
       <ipv4>10.100.10.1/24</ipv4>
       <ipv6>2001:db8:100:10::1/64</ipv6>
@@ -73,8 +73,8 @@ Author:      Juan Carlos Díaz Torres
   </vm>
 
    <!-- CLIENT 1 -->
-  <vm name="client0" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+  <vm name="client1" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net11-1">
       <ipv4>10.100.1.2/24</ipv4>
       <ipv6>2001:db8:100:1::2/64</ipv6>
@@ -92,7 +92,7 @@ Author:      Juan Carlos Díaz Torres
 
   <!-- CLIENT 2 -->
   <vm name="client2" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net11-2">
       <ipv4>10.100.2.2/24</ipv4>
       <ipv6>2001:db8:100:2::2/64</ipv6>
@@ -110,7 +110,7 @@ Author:      Juan Carlos Díaz Torres
 
   <!-- CLIENT 3 -->
   <vm name="client3" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net12-3">
       <ipv4>10.100.3.2/24</ipv4>
       <ipv6>2001:db8:100:3::2/64</ipv6>
@@ -129,7 +129,7 @@ Author:      Juan Carlos Díaz Torres
 
   <!-- CLIENT 4 -->
   <vm name="client4" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net12-4">
       <ipv4>10.100.4.2/24</ipv4>
       <ipv6>2001:db8:100:4::2/64</ipv6>
@@ -148,7 +148,7 @@ Author:      Juan Carlos Díaz Torres
 
   <!-- S1 -->
   <vm name="s1" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <!-- 2 interfaces and the ctrl -->
     <if id="1" net="net1-11"/>
     <if id="2" net="net1-12"/>
@@ -169,7 +169,7 @@ Author:      Juan Carlos Díaz Torres
 
    <!-- S2 -->
   <vm name="s2" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <!-- 2 interfaces and the ctrl -->
     <if id="1" net="net2-11"/>
     <if id="2" net="net2-12"/>
@@ -190,7 +190,7 @@ Author:      Juan Carlos Díaz Torres
   
   <!-- S11 -->
   <vm name="s11" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net1-11"/>
     <if id="2" net="net1-12"/>
     <if id="3" net="net_ctrl">
@@ -211,7 +211,7 @@ Author:      Juan Carlos Díaz Torres
 
 <!-- S12 -->
   <vm name="s12" type="lxc" arch="x86_64">
-    <filesystem type="cow">../filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net2-11"/>
     <if id="2" net="net2-12"/>
     <if id="3" net="net_ctrl">
