@@ -17,6 +17,7 @@ ovs-vsctl add-br s12
 ovs-vsctl add-port s12 eth1
 ovs-vsctl add-port s12 eth2
 ovs-vsctl add-port s12 eth3
+ovs-vsctl add-port s12 eth4
 ovs-vsctl set bridge s12 other-config:hwaddr=00:00:00:00:00:12
 ovs-vsctl set bridge s12 protocols=OpenFlow13
 ovs-vsctl set-controller s12 tcp:10.100.10.1:6633

@@ -57,7 +57,7 @@ Author:      Juan Carlos Díaz Torres
     </if>
 
     <!-- Copy configuration files -->
-    <filetree seq="on_boot" root="/root/conf/">conf/ONOS/</filetree>
+    <filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/SDN-DataCenter/conf/ONOS/</filetree>
 
     <!-- Configure and Start ONOS for IPv4 -->
     <exec seq="start-ipv4" type="verbatim">
@@ -65,11 +65,11 @@ Author:      Juan Carlos Díaz Torres
         nohup /root/conf/start-ONOS.sh
     </exec>
 
-    <!-- Configure and Start ONOS for IPv6 -->
+    <!-- Configure and Start ONOS for IPv6
     <exec seq="start-ipv6" type="verbatim">
         /root/conf/config-ONOS_ipv6.sh
         nohup /root/conf/start-ONOS.sh
-    </exec>
+    </exec> -->
   </vm>
 
    <!-- CLIENT 1 -->
@@ -161,7 +161,7 @@ Author:      Juan Carlos Díaz Torres
     </if>
 
     <!-- Copy configuration files -->
-    <filetree seq="on_boot" root="/root/conf/">conf/s1/</filetree>
+    <filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/SDN-DataCenter/conf/s1/</filetree>
 
     <!-- Configure Open vSwitch -->
     <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
@@ -182,7 +182,7 @@ Author:      Juan Carlos Díaz Torres
     </if>
 
     <!-- Copy configuration files -->
-    <filetree seq="on_boot" root="/root/conf/">conf/s2/</filetree>
+    <filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/SDN-DataCenter/conf/s2/</filetree>
 
     <!-- Configure Open vSwitch -->
     <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
@@ -192,8 +192,10 @@ Author:      Juan Carlos Díaz Torres
   <vm name="s11" type="lxc" arch="x86_64">
     <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
     <if id="1" net="net1-11"/>
-    <if id="2" net="net1-12"/>
-    <if id="3" net="net_ctrl">
+    <if id="2" net="net2-11"/>
+    <if id="3" net="net11-1"/>
+    <if id="4" net="net11-2"/>
+    <if id="5" net="net_ctrl">
       <ipv4>10.100.10.111/24</ipv4>
       <ipv6>2001:db8:100:10::111/64</ipv6>
     </if>
@@ -202,7 +204,7 @@ Author:      Juan Carlos Díaz Torres
     </if>
 
     <!-- Copy configuration files -->
-    <filetree seq="on_boot" root="/root/conf/">conf/s11/</filetree>
+    <filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/SDN-DataCenter/conf/s11/</filetree>
 
     <!-- Configure Open vSwitch -->
     <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
@@ -212,9 +214,11 @@ Author:      Juan Carlos Díaz Torres
 <!-- S12 -->
   <vm name="s12" type="lxc" arch="x86_64">
     <filesystem type="cow">/usr/share/vnx//filesystems/rootfs_lxc_ubuntu64</filesystem>
-    <if id="1" net="net2-11"/>
+    <if id="1" net="net1-12"/>
     <if id="2" net="net2-12"/>
-    <if id="3" net="net_ctrl">
+    <if id="3" net="net12-3"/>
+    <if id="4" net="net12-4"/>
+    <if id="5" net="net_ctrl">
       <ipv4>10.100.10.112/24</ipv4>
       <ipv6>2001:db8:100:10::112/64</ipv6>
     </if>
@@ -223,7 +227,7 @@ Author:      Juan Carlos Díaz Torres
     </if>
 
     <!-- Copy configuration files -->
-    <filetree seq="on_boot" root="/root/conf/">conf/s12/</filetree>
+    <filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/SDN-DataCenter/conf/s12</filetree>
 
     <!-- Configure Open vSwitch -->
     <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
