@@ -163,6 +163,10 @@ Author:      Juan Carlos Díaz Torres
     <!-- Copy configuration files -->
     <filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/SDN-DataCenter/conf/s1/</filetree>
 
+    <exec seq="on_boot" type="verbatim">apt-get update</exec>
+    <exec seq="on_boot" type="verbatim">apt-get install build-essential module-assistant  linux-headers-`uname -r` fakeroot gcc</exec>
+    <exec seq="on_boot" type="verbatim">apt-get install openvswitch-common openvswitch-switch</exec>
+
     <!-- Configure Open vSwitch -->
     <exec seq="on_boot" type="verbatim">/root/conf/config-ovs.sh</exec>
 </vm>
