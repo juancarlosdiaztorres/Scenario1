@@ -1,0 +1,118 @@
+{
+    "apps" : {
+        "org.onosproject.router" : {
+            "bgp" : {
+                "bgpSpeakers" : [
+                    {
+                        "name" : "speaker1",
+                        "connectPoint" : "of:0000000000000100/3",
+                        "peers" : [
+                            "10.100.101.2",
+                            "10.100.103.2"
+                        ]
+                    }
+                ]
+            }
+        },
+        "org.onosproject.reactive.routing" : {
+            "reactiveRouting" : {
+                "ip4LocalPrefixes" : [
+                    {
+                        "ipPrefix" : "10.100.100.0/24",
+                        "type" : "PUBLIC",
+                        "gatewayIp" : "10.100.100.1"
+                    },
+                    {
+                        "ipPrefix" : "10.100.1.0/24",
+                        "type" : "PUBLIC",
+                        "gatewayIp" : "10.100.1.1"
+                    },
+                    {
+                        "ipPrefix" : "10.100.3.0/24",
+                        "type" : "PUBLIC",
+                        "gatewayIp" : "10.100.3.1"
+                    },
+                    {
+                        "ipPrefix" : "172.16.2.0/24",
+                        "type" : "PRIVATE",
+                        "gatewayIp" : "172.16.2.1"
+                    },
+                    {
+                        "ipPrefix" : "172.16.4.0/24",
+                        "type" : "PRIVATE",
+                        "gatewayIp" : "172.16.4.1"
+                    }
+                ],
+                "ip6LocalPrefixes" : [
+                ],
+                "virtualGatewayMacAddress" : "00:00:00:00:00:01"
+            }
+        }
+    },
+    "ports" : {
+        "of:0000000000000100/3" : {
+            "interfaces" : [
+                {
+                    "name" : "s0-3",
+                    "ips"  : [ "10.100.100.1/24" ],
+                    "mac"  : "00:00:00:00:00:01"
+                }
+            ]
+        },
+        "of:0000000000000101/3" : {
+            "interfaces" : [
+                {
+                    "name" : "s1-3",
+                    "ips"  : [ "10.100.101.1/24" ],
+                    "mac"  : "00:00:00:00:00:01"
+                }
+            ]
+        },
+        "of:0000000000000103/3" : {
+            "interfaces" : [
+                {
+                    "name" : "s3-3",
+                    "ips"  : [ "10.100.103.1/24" ],
+                    "mac"  : "00:00:00:00:00:01"
+                }
+            ]
+        },
+        "of:0000000000000201/4" : {
+            "interfaces" : [
+                {
+                    "name" : "i1-4",
+                    "ips"  : [ "10.100.1.1/24" ],
+                    "mac"  : "00:00:00:00:00:01"
+                }
+            ]
+        },
+        "of:0000000000000203/4" : {
+            "interfaces" : [
+                {
+                    "name" : "i3-4",
+                    "ips"  : [ "10.100.3.1/24" ],
+                    "mac"  : "00:00:00:00:00:01"
+                }
+            ]
+        },
+        "of:0000000000000202/4" : {
+            "interfaces" : [
+                {
+                    "name" : "i2-4",
+                    "ips"  : [ "172.16.2.1/24" ],
+                    "mac"  : "00:00:00:00:00:01"
+                }
+            ]
+        },
+        "of:0000000000000204/4" : {
+            "interfaces" : [
+                {
+                    "name" : "i4-4",
+                    "ips"  : [ "172.16.4.1/24" ],
+                    "mac"  : "00:00:00:00:00:01"
+                }
+            ]
+        }
+
+    }
+}

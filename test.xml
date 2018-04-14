@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+~~~~~~~~~~~~~~~~~~~~
+VNX Sample scenarios
+~~~~~~~~~~~~~~~~~~~~
+
+Name:        tutorial_vlan_ovs
+Description:
+
+This file is part of the Virtual Networks over LinuX (VNX) Project distribution.
+(www: http://www.dit.upm.es/vnx - e-mail: vnx@dit.upm.es)
+
+Departamento de Ingenieria de Sistemas Telematicos (DIT)
+Universidad Politecnica de Madrid
+SPAIN
+
+-->
+
+<vnx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="/usr/share/xml/vnx/vnx-2.00.xsd">
+  <global>
+    <version>2.0</version>
+    <scenario_name>tutorial_vlan_ovs</scenario_name>
+    <automac offset="5"/>
+    <vm_mgmt type="none" />
+    <!--vm_mgmt type="private" network="10.250.0.0" mask="24" offset="16">
+       <host_mapping />
+    </vm_mgmt-->
+    <vm_defaults>
+      <console id="0" display="no"/>
+      <console id="1" display="yes"/>
+    </vm_defaults>
+    <!--<netconfig stp="on"/>-->
+  </global>
+
+
+  <!-- NET DEFINITION -->
+
+  <!-- virbr0 (192.168.122.0/24) -->
+  <net name="virbr0" mode="virtual_bridge" managed="no"/>
+  <!-- NetMgt (10.100.0.0/24) -->
+  <net name="Net_ctrl" mode="virtual_bridge"/>
+
+  <!-- SWITCHES OPENFLOW -->
+  <net name="Net0" mode="openvswitch" hwaddr="00:00:00:00:01:00" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure' >
+    <connection name='0_2' net='Net2'>
+      <vlan>
+         <tag id='1'/>
+      </vlan>
+    </connection>
+	<connection name='0_3' net='Net3'>
+      <vlan>
+         <tag id='1'/>
+      </vlan>
+    </connection>
+    <!--<connection name='0_ctrl' net='Net_ctrl'/>-->
+  </net>
+
+
+  <net name="Net1" mode="openvswitch" hwaddr="00:00:00:00:01:01" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure' >
+    <connection name='1_3' net='Net3'>
+       <vlan>
+         <tag id='1'/>
+       </vlan>
+    </connection>
+    <connection name='1_2' net='Net2'>
+      <vlan>
+         <tag id='1'/>
+      </vlan>
+    </connection>
+    <!--<connection name='1_ctrl' net='Net_ctrl'/>-->
+  </net> 
+
+  <net name="Net2" mode="openvswitch" hwaddr="00:00:00:00:01:02" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure'>
+  	<connection name='2_ctrl' net='Net_ctrl'/>
+  </net>
+
+  <net name="Net3" mode="openvswitch" hwaddr="00:00:00:00:01:03" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure'>
+  	<connection name='3_ctrl' net='Net_ctrl'/>
+  </net>
+  
+
+
+
+ <!--  <net name="s1" mode="openvswitch">
+    <connection name='1-11' net='s11'>
+          <vlan>
+            <tag id='1'/>
+            <tag id='2'/>
+          </vlan>
+      </connection>
+      <connection name='1-12' net='s12'>
+          <vlan>
+            <tag id='1'/>
+            <tag id='2'/>
+          </vlan>
+      </connection>
+    </net>
+   <net name="s2" mode="openvswitch">
+    <connection name='2-11' net='s11'>
+          <vlan>
+            <tag id='1'/>
+            <tag id='2'/>
+          </vlan>
+      </connection>
+      <connection name='2-12' net='s12'>
+          <vlan>
+            <tag id='1'/>
+            <tag id='2'/>
+          </vlan>
+      </connection>
+    </net>
+   <net name="s11" mode="openvswitch"/>
+   <net name="s12" mode="openvswitch"/>
+   <net name="net_ctrl" mode="virtual_bridge"/> -->
+
+ <!-- ONOS -->
+  <vm name="ONOS" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx//filesystems/vnx_rootfs_lxc_ubuntu64-16.04-v025-onos-1.11.1</filesystem>
+    <if id="1" net="Net_ctrl">
+      <ipv4>10.100.11.1/24</ipv4>
+  	</if>
+  	<if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+  	
+  	<!-- Copy configuration files -->
+	<!--<filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/TFG/conf/ONOS/</filetree>-->
+	 <!-- Copy configuration files -->
+    <filetree seq="on_boot" root="/root/conf/">/home/coit/Desktop/TFG/conf/ONOS/start-ONOS.sh</filetree>
+    <filetree seq="on_boot" root="/opt/onos/">/home/coit/Desktop/TFG/conf/ONOS/options</filetree>
+    <filetree seq="on_boot" root="/opt/onos/config/network-cfg.json">/home/coit/Desktop/TFG/conf/ONOS/network-cfg_ipv4.json</filetree>
+
+
+	<!-- Configure and Start ONOS (IPv4) -->
+    <exec seq="config-ONOS" type="verbatim">
+        echo 'alias onos-client=/opt/onos/karaf/bin/client' >> /root/.bashrc
+        /root/conf/start-ONOS.sh
+    </exec>
+    
+</vm>
+
+
+
+
+  <!-- NODES -->
+  <vm name="h1" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/vnx_rootfs_lxc_ubuntu64-16.04-v025-onos-1.11.1</filesystem>
+    <if id="1" net="Net2" >
+     <vlan>
+       <tag id='1'/>
+      </vlan>
+      <ipv4>10.1.100.1/24</ipv4>
+    </if>
+    
+
+  </vm>
+
+  <vm name="h2" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/vnx_rootfs_lxc_ubuntu64-16.04-v025-onos-1.11.1</filesystem>
+    <if id="1" net="Net2" >
+      <vlan>
+       <tag id='1'/>
+      </vlan>
+      <ipv4>10.1.100.2/24</ipv4>
+    </if>
+   
+
+  </vm>
+
+  <vm name="h3" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/vnx_rootfs_lxc_ubuntu64-16.04-v025-onos-1.11.1</filesystem>
+    <if id="1" net="Net3" >
+      <vlan>
+      <tag id='1'/>
+      </vlan>
+      <ipv4>10.1.100.3/24</ipv4>
+    </if>
+
+
+  </vm>
+
+  <vm name="h4" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/vnx_rootfs_lxc_ubuntu64-16.04-v025-onos-1.11.1</filesystem>
+    <if id="1" net="Net3" >
+      <vlan>
+        <tag id='1'/>
+      </vlan>
+      <ipv4>10.1.100.4/24</ipv4>
+    </if>
+   
+
+  </vm>
+
+
+  <host>
+        <hostif net="Net_ctrl">
+            <ipv4>10.100.11.3/24</ipv4>
+        </hostif>
+        <!--<route type="ipv4" gw="10.100.11.2">10.100.1.0/24</route>
+        <route type="ipv4" gw="10.100.11.2">10.100.2.0/24</route>
+        <route type="ipv4" gw="10.100.11.2">10.100.3.0/24</route>
+        <exec seq="config-extrouter" type="verbatim">
+            vnx_config_nat netmgt enp0s3
+        </exec>-->
+  </host>
+
+
+</vnx>
