@@ -1,2 +1,3 @@
 ONOS_USER=root
-ONOS_APPS="drivers,openflow,proxyarp,sdnip,reactive-routing"
+ONOS_APPS="drivers,openflow,netcfghostprovider,segmentrouting,fpm"
+

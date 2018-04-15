@@ -3,16 +3,18 @@
 <!--
 
 ~~~~~~~~~~~~~~~~~~~~
-VNX Sample scenarios
+Scenario1 VNX
 ~~~~~~~~~~~~~~~~~~~~
 
-Name:        tutorial_vlan_ovs
-Description:
+Name:        Scenario1
+Description: 	This is an easy configuration for the deployment of a SDN. 
+				The estructure is based on a Leaf-Spine configuration of OpenFlow switches. 
+				It allows to simulate a Software Defined DataCenter meanwhile getting started with ONOS Controller and SDN.
 
-This file is part of the Virtual Networks over LinuX (VNX) Project distribution.
-(www: http://www.dit.upm.es/vnx - e-mail: vnx@dit.upm.es)
+This file is part of a TFG.
+jcdiaztorres96@gmail.com
 
-Departamento de Ingenieria de Sistemas Telematicos (DIT)
+Juan Carlos Díaz Torres
 Universidad Politecnica de Madrid
 SPAIN
 
@@ -46,14 +48,14 @@ SPAIN
   <!-- SWITCHES OPENFLOW -->
   <net name="Net0" mode="openvswitch" hwaddr="00:00:00:00:01:00" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure' >
     <connection name='0_2' net='Net2'>
-      <vlan>
+      <!--<vlan>
          <tag id='1'/>
-      </vlan>
+      </vlan>-->
     </connection>
 	<connection name='0_3' net='Net3'>
-      <vlan>
+      <!--<vlan>
          <tag id='1'/>
-      </vlan>
+      </vlan>-->
     </connection>
     <!--<connection name='0_ctrl' net='Net_ctrl'/>-->
   </net>
@@ -61,24 +63,24 @@ SPAIN
 
   <net name="Net1" mode="openvswitch" hwaddr="00:00:00:00:01:01" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure' >
     <connection name='1_3' net='Net3'>
-       <vlan>
+       <!--<vlan>
          <tag id='1'/>
-       </vlan>
+       </vlan>-->
     </connection>
     <connection name='1_2' net='Net2'>
-      <vlan>
+      <!--<vlan>
          <tag id='1'/>
-      </vlan>
+      </vlan>-->
     </connection>
     <!--<connection name='1_ctrl' net='Net_ctrl'/>-->
   </net> 
 
   <net name="Net2" mode="openvswitch" hwaddr="00:00:00:00:01:02" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure'>
-  	<connection name='2_ctrl' net='Net_ctrl'/>
+  	<!--<connection name='2_ctrl' net='Net_ctrl'/>-->
   </net>
 
   <net name="Net3" mode="openvswitch" hwaddr="00:00:00:00:01:03" controller='tcp:10.100.11.1:6633' of_version="OpenFlow13" fail_mode='secure'>
-  	<connection name='3_ctrl' net='Net_ctrl'/>
+  	<!--<connection name='3_ctrl' net='Net_ctrl'/>-->
   </net>
   
 
